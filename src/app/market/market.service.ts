@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import {Stock} from "../domain/Stock";
 import {HttpClient} from "@angular/common/http";
 import {Observable} from "rxjs/Observable";
+import {Trade} from "../domain/Trade";
 
 @Injectable()
 export class MarketServiceImpl implements MarketService {
@@ -66,6 +67,30 @@ export class MarketServiceImpl implements MarketService {
 
     return Math.round((currentPrice + (Math.random() * multiplier)) * 100 + Number.EPSILON) / 100;
   }
+
+  buyStock(symbol: string, count: number): Trade
+  {
+    let stock: Stock = this.getStock(symbol);
+
+    if (stock)
+    {
+      return new Trade(stock, count, stock.getPrice());
+    }
+
+    return null;
+  }
+
+  sellStock(trade: Trade): void
+  {
+    let stock: Stock = trade.getStock();
+    trade.close(stock.getPrice());
+  }
+
+  private getStock(symbol: string): Stock
+  {
+    return this.stocks.find(stock => stock.getSymbol() == symbol);
+  }
+
 }
 
 export interface MarketService
