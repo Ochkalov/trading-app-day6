@@ -1,5 +1,7 @@
 import { Injectable } from '@angular/core';
 import {Stock} from "../domain/Stock";
+import {HttpClient} from "@angular/common/http";
+import {Observable} from "rxjs/Observable";
 
 @Injectable()
 export class MarketServiceImpl implements MarketService {
@@ -8,17 +10,28 @@ export class MarketServiceImpl implements MarketService {
 
   counter: number;
 
-  constructor() { this.stocks = this.getMockStocks(); }
-
-  private getMockStocks(): Stock[]
+  constructor(private httpClient: HttpClient)
   {
-    let stocks: Stock[] = [];
+    this.stocks = [];
 
-    stocks.push(new Stock('BA', 'Boeing', this));
-    stocks.push(new Stock('CAT', 'Caterpillar', this));
-    stocks.push(new Stock('KO', 'Coca-Cola', this));
+    this.getStockData().subscribe(
+      data =>
+      {
+        for (let md of data)
+        {
+          this.stocks.push(new Stock(md.symbol, md.company, this));
+        }
+      },
+      error =>
+      {
+        console.log('Cannot get market data from the server!!!');
+      }
+    );
+  }
 
-    return stocks;
+  private getStockData(): Observable<MarketData[]>
+  {
+    return this.httpClient.get<MarketData[]>('assets/market-data.json');
   }
 
   getStocks(): Stock[]
@@ -61,4 +74,10 @@ export interface MarketService
   getUpdatedPrice(currentPrice: number): number;
   getStocks(): Stock[];
   addStock(symbol: string, company: string);
+}
+
+interface MarketData
+{
+  symbol: string,
+  company: string
 }
