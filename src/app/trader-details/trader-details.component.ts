@@ -5,6 +5,10 @@ import {Trade} from "../domain/Trade";
 import {MarketServiceImpl} from "../market/market.service";
 import {Stock} from "../domain/Stock";
 import {FormControl} from "@angular/forms";
+import {ActivatedRoute, ParamMap} from "@angular/router";
+
+import 'rxjs/add/operator/switchMap';
+import {Location} from "@angular/common";
 
 @Component({
   selector: 'app-trader-details',
@@ -19,23 +23,18 @@ export class TraderDetailsComponent implements OnInit {
 
   symbolInput = new FormControl();
 
-  constructor(private tradersService: TradersService, private marketService: MarketServiceImpl)
+  constructor(private tradersService: TradersService, private marketService: MarketServiceImpl,
+              private route: ActivatedRoute, private location: Location)
   {
     this.trader = new Trader('');
   }
 
   ngOnInit()
   {
-    this.tradersService.getTrader('Oleg').then(trader =>
-    {
-      this.trader = trader;
-      // this.trader.addToPortfolio(new Trade(new Stock('A', 'aa', this.marketService), 10, 100));
-      // this.trader.addToPortfolio(new Trade(new Stock('B', 'bb', this.marketService), 100, 120));
-      //
-      // let closed: Trade = new Trade(new Stock('C', 'cc', this.marketService), 100, 220);
-      // closed.close(270);
-      // this.trader.addToPortfolio(closed);
-    });
+    this.route.paramMap
+      .switchMap((params: ParamMap) => this.tradersService.getTrader(params.get('name')))
+      .subscribe((trader: Trader) => this.trader = trader);
+
     this.countInput.setValue(10);
   }
 
@@ -58,6 +57,11 @@ export class TraderDetailsComponent implements OnInit {
   closeTrade(trade: Trade)
   {
     this.marketService.sellStock(trade);
+  }
+
+  goBack(): void
+  {
+    this.location.back();
   }
 
 }
