@@ -1,5 +1,5 @@
 {
-  "name": "trading-app-day3",
+  "name": "trading-app-day4",
   "version": "0.0.0",
   "license": "MIT",
   "scripts": {
@@ -18,6 +18,8 @@
     "@angular/core": "^4.0.0",
     "@angular/forms": "^4.0.0",
     "@angular/http": "^4.0.0",
+    "@angular/cdk": "^2.0.0-beta.8",
+    "@angular/material": "^2.0.0-beta.8",
     "@angular/platform-browser": "^4.0.0",
     "@angular/platform-browser-dynamic": "^4.0.0",
     "@angular/router": "^4.0.0",

@@ -3,7 +3,6 @@ import {Trader} from "../domain/Trader";
 import {TradersService} from "../traders/traders.service";
 import {Trade} from "../domain/Trade";
 import {MarketServiceImpl} from "../market/market.service";
-import {Stock} from "../domain/Stock";
 import {FormControl} from "@angular/forms";
 import {ActivatedRoute, ParamMap} from "@angular/router";
 
