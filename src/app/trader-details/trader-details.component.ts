@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import {Trader} from "../domain/Trader";
 import {TradersService} from "../traders/traders.service";
 import {Trade} from "../domain/Trade";
@@ -8,6 +8,8 @@ import {ActivatedRoute, ParamMap} from "@angular/router";
 
 import 'rxjs/add/operator/switchMap';
 import {Location} from "@angular/common";
+import {Stock} from "../domain/Stock";
+import {StocksComponent} from "./stocks/stocks.component";
 
 @Component({
   selector: 'app-trader-details',
@@ -20,7 +22,10 @@ export class TraderDetailsComponent implements OnInit {
 
   countInput = new FormControl();
 
-  symbolInput = new FormControl();
+  selectedStock: Stock;
+
+  @ViewChild(StocksComponent)
+  private stocksComponent: StocksComponent;
 
   constructor(private tradersService: TradersService, private marketService: MarketServiceImpl,
               private route: ActivatedRoute, private location: Location)
@@ -37,20 +42,25 @@ export class TraderDetailsComponent implements OnInit {
     this.countInput.setValue(10);
   }
 
+  onStockSelect(stock: Stock)
+  {
+    console.log('stock selected from event');
+    this.selectedStock = stock;
+  }
+
   buyStock()
   {
-    let trade: Trade = this.marketService.buyStock(this.symbolInput.value, this.countInput.value);
-
-    if (!trade)
+    if (this.selectedStock == null)
     {
-      alert(`symbol ${this.symbolInput.value} not found`);
+      window.alert('Please select the stock');
       return;
     }
 
+    let trade: Trade = this.marketService.buyStock(this.selectedStock.getSymbol(), this.countInput.value);
     this.trader.addToPortfolio(trade);
 
-    this.symbolInput.setValue('');
-    this.countInput.setValue(10);
+    this.stocksComponent.clean();
+    this.selectedStock = null;
   }
 
   closeTrade(trade: Trade)

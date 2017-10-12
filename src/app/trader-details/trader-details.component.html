@@ -9,7 +9,7 @@
 
     <div class="form-group">
       <label>Symbol</label>
-      <app-stocks></app-stocks>
+      <app-stocks (onStockSelect)="onStockSelect($event)" ></app-stocks>
     </div>
     <div class="form-group">
       <label for="count">Count</label>
