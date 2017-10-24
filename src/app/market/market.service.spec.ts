@@ -1,15 +1,15 @@
 import { TestBed, inject } from '@angular/core/testing';
 
-import { MarketService } from './market.service';
+import {MarketServiceImpl} from './market.service';
 
 describe('MarketService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [MarketService]
+      providers: [MarketServiceImpl]
     });
   });
 
-  it('should be created', inject([MarketService], (service: MarketService) => {
+  it('should be created', inject([MarketServiceImpl], (service: MarketServiceImpl) => {
     expect(service).toBeTruthy();
   }));
 });
