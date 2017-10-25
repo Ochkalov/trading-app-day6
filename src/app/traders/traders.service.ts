@@ -26,6 +26,11 @@ export class TradersService
     this.traders.push(new Trader(name));
   }
 
+  getTradersInstant(): Trader[]
+  {
+    return this.traders;
+  }
+
   getTraders(): Promise<Trader[]>
   {
     return new Promise(resolve =>
