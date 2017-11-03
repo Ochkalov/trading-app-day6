@@ -36,12 +36,16 @@ export class StocksComponent implements OnInit
 
     this.stockInput.valueChanges.startWith(null).subscribe(symbol =>
     {
+      // console.log('--> valueChanges: ' + symbol);
       let stock = this.findStock(symbol);
       if (stock != null)
       {
         this.selected = stock;
-        console.log('event emitted');
         this.onStockSelect.emit(stock);
+      }
+      else
+      {
+        this.selected = null;
       }
     });
   }
