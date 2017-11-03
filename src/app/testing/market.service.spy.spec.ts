@@ -5,6 +5,8 @@ import {MarketService} from "../market/market.service";
 import {Trade} from "../domain/Trade";
 export class MarketServiceSpy implements MarketService
 {
+  stocks: Stock[] = [];
+
   getStocks = jasmine.createSpy('getStocks').and.callFake(() => this.getFakeMStocks());
 
   getPrice = jasmine.createSpy('getPrice').and.callFake(() => 100);
@@ -20,17 +22,16 @@ export class MarketServiceSpy implements MarketService
 
   addStock(symbol: string, company: string)
   {
+    this.stocks.push(new Stock(symbol, company, this));
   }
 
   private getFakeMStocks(): Stock[]
   {
-    let stocks: Stock[] = [];
+    this.stocks.push(new Stock('MMM', '3M', this));
+    this.stocks.push(new Stock('MCD', "McDonald's", this));
+    this.stocks.push(new Stock('MRK', 'Merck', this));
+    this.stocks.push(new Stock('MSFT', 'Microsoft', this));
 
-    stocks.push(new Stock('MMM', '3M', this));
-    stocks.push(new Stock('MCD', "McDonald's", this));
-    stocks.push(new Stock('MRK', 'Merck', this));
-    stocks.push(new Stock('MSFT', 'Microsoft', this));
-
-    return stocks;
+    return this.stocks;
   }
 }

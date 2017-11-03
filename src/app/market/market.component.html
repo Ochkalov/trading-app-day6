@@ -7,7 +7,7 @@
     <label for="company">Company: </label>
     <input #company type="text" class="form-control" id="company" placeholder="Apple">
   </div>
-  <button class="btn btn-default" (click)="add(symbol.value, company.value); symbol.value=''; company.value = ''">Add Stock</button>
+  <button class="btn btn-default" id="addStockBtn"  (click)="add(symbol.value, company.value); symbol.value=''; company.value = ''">Add Stock</button>
 </div>
 
 <br><br>
