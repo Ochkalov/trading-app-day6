@@ -1,7 +1,7 @@
 
 
 
-import {Injectable} from "@angular/core";
+import {Directive, Injectable, Input} from "@angular/core";
 import {Subject} from "rxjs/Subject";
 import {convertToParamMap, Params} from "@angular/router";
 
@@ -27,5 +27,23 @@ export class ActivatedRouteStub
   get snapshot()
   {
     return { paramMap: this.testParamMap };
+  }
+}
+
+@Directive({
+  selector: '[routerLink]',
+  host: {
+    '(click)': 'onClick()'
+  }
+})
+export class RouterLinkStubDirective
+{
+  @Input('routerLink')
+  linkParams: any;
+
+  navigatedTo: any = null;
+
+  onClick() {
+    this.navigatedTo = this.linkParams;
   }
 }
