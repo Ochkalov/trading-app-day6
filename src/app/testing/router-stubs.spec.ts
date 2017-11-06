@@ -1,7 +1,7 @@
 
 
 
-import {Directive, Injectable, Input} from "@angular/core";
+import {Component, Directive, Injectable, Input} from "@angular/core";
 import {Subject} from "rxjs/Subject";
 import {convertToParamMap, Params} from "@angular/router";
 
@@ -47,3 +47,6 @@ export class RouterLinkStubDirective
     this.navigatedTo = this.linkParams;
   }
 }
+
+@Component({selector: 'router-outlet', template: ''})
+export class RouterOutletStubComponent { }

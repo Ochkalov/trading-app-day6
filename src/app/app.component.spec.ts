@@ -1,32 +1,46 @@
-import { TestBed, async } from '@angular/core/testing';
+import {TestBed, async, ComponentFixture} from '@angular/core/testing';
 
 import { AppComponent } from './app.component';
+import {RouterLinkStubDirective, RouterOutletStubComponent} from "./testing/router-stubs.spec";
+import {By} from "@angular/platform-browser";
 
-describe('AppComponent', () => {
+describe('AppComponent', () =>
+{
+  let component: AppComponent;
+  let fixture: ComponentFixture<AppComponent>;
+  let links;
+
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [
-        AppComponent
+        AppComponent,
+        RouterLinkStubDirective,
+        RouterOutletStubComponent
       ],
-    }).compileComponents();
+    })
+      .compileComponents()
+      .then(() =>
+      {
+        fixture = TestBed.createComponent(AppComponent);
+        component = fixture.debugElement.componentInstance;
+      });
   }));
 
-  // it('should create the app', async(() => {
-  //   const fixture = TestBed.createComponent(AppComponent);
-  //   const app = fixture.debugElement.componentInstance;
-  //   expect(app).toBeTruthy();
-  // }));
-  //
-  // it(`should have as title 'app'`, async(() => {
-  //   const fixture = TestBed.createComponent(AppComponent);
-  //   const app = fixture.debugElement.componentInstance;
-  //   expect(app.title).toEqual('app');
-  // }));
-  //
-  // it('should render title in a h1 tag', async(() => {
-  //   const fixture = TestBed.createComponent(AppComponent);
-  //   fixture.detectChanges();
-  //   const compiled = fixture.debugElement.nativeElement;
-  //   expect(compiled.querySelector('h1').textContent).toContain('Welcome to app!!');
-  // }));
+  beforeEach(() =>
+  {
+    fixture.detectChanges();
+
+    links = fixture.debugElement.queryAll(By.directive(RouterLinkStubDirective));
+  });
+
+  it('app component should be created', () =>
+  {
+    expect(component).toBeTruthy();
+  });
+
+  it('app component template should contain 2 links', () =>
+  {
+    expect(2).toEqual(links.length);
+  });
+
 });
