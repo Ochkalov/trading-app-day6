@@ -4,7 +4,6 @@ import {TradersComponent} from './traders.component';
 import {RouterLinkStubDirective} from "../testing/router-stubs.spec";
 import {TradersService} from "./traders.service";
 import {DebugElement} from "@angular/core";
-import {TradersServiceSpy} from "../testing/traders.service.spy.spec";
 
 describe('TradersComponent', () =>
 {
@@ -17,7 +16,7 @@ describe('TradersComponent', () =>
   {
     TestBed.configureTestingModule({
       declarations: [TradersComponent, RouterLinkStubDirective],
-      providers: [{provide: TradersService, useClass: TradersService}]
+      providers: [TradersService]
     })
       .compileComponents();
   }));
